@@ -1,9 +1,12 @@
 """
 it's module need's for parsing on site https://enter.kg
 """
+from cgitb import text
+from urllib import response
 import requests
 from bs4 import BeautifulSoup
 
+from .utils import deep_requests
 
 class Response():
 
@@ -32,7 +35,26 @@ class Parsing():
         all_data = soup.find_all("div", class_="row")
         return all_data
 
+    @deep_requests()
+    def find_title(self, data: BeautifulSoup) -> str:
+        title = data.find('span', class_='prouct_name').text
+        return title
+    
+    @deep_requests()
+    def find_price(self, data: BeautifulSoup):
+        price = data.find('span', class_='price').text
+        return price
+
+    @deep_requests()
+    def find_articule(self, data: BeautifulSoup):
+        articule = data.find('span', class_='sku').text
+        return articule
+
     def build(self):
         soup = self.soup()
         find_all = self.find_all(soup)
-        print(find_all)
+        for obj in find_all:
+            print(self.find_title(obj))
+            print(self.find_price(obj))
+            print(self.find_articule(obj))
+            break
