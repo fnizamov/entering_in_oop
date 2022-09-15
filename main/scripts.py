@@ -2,6 +2,7 @@
 it's module need's for parsing on site https://enter.kg
 """
 from cgitb import text
+from unittest import result
 from urllib import response
 import requests
 from bs4 import BeautifulSoup
@@ -53,8 +54,13 @@ class Parsing():
     def build(self):
         soup = self.soup()
         find_all = self.find_all(soup)
+        result = []
         for obj in find_all:
-            print(self.find_title(obj))
-            print(self.find_price(obj))
-            print(self.find_articule(obj))
+            data = {
+                'title': self.find_title(obj),
+                'price': self.find_price(obj),
+                'articule': self.find_articule(obj)
+            }
+            result.append(data)
             break
+        return result
